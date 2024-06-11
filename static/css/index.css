@@ -296,4 +296,32 @@ code {
   padding-bottom: 0em;
 }
 
+.model-labels-container {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px; 
+}
 
+.model-label {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 5px;
+  border-radius: 3px;
+  color: rgb(255, 255, 255);
+}
+
+.leaderboard-label {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 5px;
+  border-radius: 3px;
+  color: rgb(48, 48, 48);
+}
+
+.box {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  height: 100%;
+  margin: 5px; 
+}
