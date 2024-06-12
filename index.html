@@ -44,7 +44,28 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
-  
+
+  <script type="application/javascript">
+
+    function resizeIFrameToFitContent( iFrame ) {
+    
+        iFrame.width  = iFrame.contentWindow.document.body.scrollWidth;
+        iFrame.height = iFrame.contentWindow.document.body.scrollHeight;
+    }
+    
+    window.addEventListener('DOMContentLoaded', function(e) {
+    
+        var iFrame = document.getElementById( 'iFrame1' );
+        resizeIFrameToFitContent( iFrame );
+    
+        // or, to resize all iframes:
+        var iframes = document.querySelectorAll("iframe");
+        for( var i = 0; i < iframes.length; i++) {
+            resizeIFrameToFitContent( iframes[i] );
+        }
+    } );
+    
+    </script>
 
   <!-- juxtapose -->
   <script src="static/js/juxtapose.js"></script>
@@ -248,13 +269,6 @@
             <b>Figure:</b> Many open-source models surpass proprietary model performance on existing benchmarks (subsets of DVQA, FigureQA and ChartQA from MathVista) yet fail consistently in reasoning questions from <span class="fancy_text_color">CharXiv
           </p>
         </div>
-
-        <div class="is-size-5 publication-authors">
-          <span class="author-block" style="font-size: 120%;"><i>The website is being constructed. The following contents are inherited from our previous project and haven't updated. We will roll out all the update for this project soon!</i></span>
-          <div class="has-text-centered">
-            <img src="./static/images/charxiv_logo.png", width="200"/>
-          </div>
-        </div>
         
         <div class="columns is-centered m-6">
           <div class="column is-full has-text-centered content">
@@ -265,19 +279,25 @@
                   We evaluate general-purpose MLLMs on CharXiv and provide a leaderboard for the community to track progress. Note that all models are evaluated in a zero-shot setting with a set of instructions for each question type.
                 </p>
                 <div class="has-text-centered">
-                  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" width=1350 height=700></iframe>
+                  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" ></iframe>
                 </div>
               </div>
+        
+        <div class="is-size-5 publication-authors">
+          <span class="author-block" style="font-size: 120%;"><i>The website is being constructed. The following contents are inherited from our previous project and haven't updated. We will roll out all the update for this project soon!</i></span>
+          <div class="has-text-centered">
+            <img src="./static/images/charxiv_logo.png", width="200"/>
+          </div>
+        </div>
               
 
 
-              <button id="toggleButton" onclick="changeButtonText()"><b style='font-size: larger;'>Validation Set Leaderboard</b> (Click to Switch)</button>
+              <!-- <button id="toggleButton" onclick="changeButtonText()"><b style='font-size: larger;'>Validation Set Leaderboard</b> (Click to Switch)</button>
           <div class="model-labels-container">
             <span class="leaderboard-label" style="background-color: rgba(255, 208, 80, 0.15);">Human Expert</span>
             <span class="leaderboard-label" style="background-color: rgba(249, 242, 248, 1);">Open-Source</span>
             <span class="leaderboard-label" style="background-color: rgba(117, 209, 215, 0.1);">Proprietary</span>
           </div>
-          <!-- Validation Set Leaderboard -->
           <table id="table1" class="js-sort-table">
             <tr>
               <td class="js-sort-number"><strong>Reset</strong></td>
@@ -314,7 +334,7 @@
               <td><b>92.86</b></td>
             </tr>
           </table>
-        </div>
+        </div> -->
 
         
   
