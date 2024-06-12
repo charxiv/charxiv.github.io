@@ -58,13 +58,7 @@
       th {
         font-weight: bold;
       }
-      .container {
-            display: flex;
-            padding: 0px;
-        }
-      .column {
-            margin-right: 100px;
-        }
+
       .dropdown-container {
         display: flex;
         gap: 10px;
@@ -105,16 +99,17 @@
       .checkbox-container2 {
         display: flex;
         flex-wrap: wrap;
-        justify-content: left;
+        justify-content: space-between;
       }
 
       .checkbox-container2 > div {
         flex: 1 1 25%;
+        /* margin-right: 1%; */
       }
 
-      /* .checkbox-container2 > div:last-child {
+      .checkbox-container2 > div:last-child {
         margin-right: 0;
-      } */
+      }
 
       #modelCheckboxes {
         display: flex;
@@ -309,7 +304,7 @@
   <body>
     <div id="content" class="container-fluid d-flex flex-column gap-3">
       <div class="checkbox-container2">
-        <div style="margin-right: 20px;">
+        <div>
           <label style="font-weight: bolder;">Split:</label>
           <div id="splitCheckboxes">
             <input type="radio" id="Val" name="split" value="Val" checked>
@@ -319,8 +314,7 @@
             <label style="margin-left: 5px;" for="Test">Test</label>
           </div>
         </div>
-
-        <div style="margin-right: 20px;">
+        <div>
           <label style="font-weight: bolder;">Model Weights:</label>
           <div id="weightCheckboxes">
             <input type="checkbox" id="Close" name="weight" value="Close" checked>
@@ -332,8 +326,8 @@
         </div>
         <div>
           <label style="font-weight: bolder;">Sort By:</label>
-          <div id="sortByCheckboxes" class="container"></div>
-            <div class="column">
+          <div id="sortByCheckboxes"></div>
+            <div>
                 <input type="radio" id="Reasoning Overall" name="sortBy" value="Reasoning Overall" checked>
                 <label for="Reasoning Overall">Reasoning Overall</label>
                 <br>
@@ -348,8 +342,7 @@
                 <br>
                 <input type="radio" id="(R) Number-in-General" name="sortBy" value="(R) Number-in-General">
                 <label for="(R) Number-in-General">(R) Number-in-General</label>
-            </div>
-            <div class="column">
+                <br>
                 <input type="radio" id="Descriptive Overall" name="sortBy" value="Descriptive Overall">
                 <label for="Descriptive Overall">Descriptive Overall</label>
                 <br>
