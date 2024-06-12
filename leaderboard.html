@@ -228,13 +228,13 @@
         var cell = isHeader ? document.createElement('th') : document.createElement('td');
         if (isHeader) {
           cell.textContent = cellData;
-        } else if (columnIndex === 1 && cellData !== 'N/A') {
+        } else if (columnIndex === 1 && cellData != '') {
             var link = document.createElement('a');
             link.setAttribute('href', paperLink);
             link.textContent = cellData;
             link.setAttribute('target', '_blank');
             cell.appendChild(link);
-        } else if (columnIndex === 2 && cellData !== 'N/A') {
+        } else if (columnIndex === 2 && cellData != '') {
             var link = document.createElement('a');
             link.setAttribute('href', weightLink);
             link.textContent = cellData;
