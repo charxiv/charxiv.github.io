@@ -183,14 +183,19 @@
         header = data.shift(); // Remove and store the header row
 
         renderTable(data);
-        sortTableBy('Pass@1*', data); // Sort the table by Pass@1* initially
+        // sortTableBy('Pass@1*', data); // Sort the table by Pass@1* initially
+        sortTableBy('All-R', data);
         updateTable(); // Filter the table based on the selected checkboxes
 
-        document.getElementById('datasetCheckboxes').addEventListener('change', updateTable);
-        document.getElementById('modelCheckboxes').addEventListener('change', updateTable);
-        document.getElementById('sourceLangCheckboxes').addEventListener('change', updateTable);
-        document.getElementById('targetLangCheckboxes').addEventListener('change', updateTable);
-        document.getElementById('sortByCheckboxes').addEventListener('change', updateTable); // Listen for sorting column change
+        // document.getElementById('datasetCheckboxes').addEventListener('change', updateTable);
+        // document.getElementById('modelCheckboxes').addEventListener('change', updateTable);
+        // document.getElementById('sourceLangCheckboxes').addEventListener('change', updateTable);
+        // document.getElementById('targetLangCheckboxes').addEventListener('change', updateTable);
+        // document.getElementById('sortByCheckboxes').addEventListener('change', updateTable);
+
+        document.getElementByID('splitCheckboxes').addEventListener('change', updateTable);
+        document.getElementById('weightCheckboxes').addEventListener('change', updateTable);
+        document.getElementById('sortByCheckboxes').addEventListener('change', updateTable);
       })
       .catch(error => console.error('Error:', error));
 
@@ -208,80 +213,55 @@
 
     function renderTable(tableData) {
       var table = document.getElementById('csvTable');
-
       table.innerHTML = '';
-      table.appendChild(createRow(header.slice(0, 7), true, false, false, "")); // Re-insert the header row
-
+      table.appendChild(createRow(header.slice(0, 14), true, "", "")); // Re-insert the header row
       tableData.forEach(function(rowData) {
-        var isVerified = rowData[7] === 'Y'
-        var isConversational = rowData[8] === 'Y'
-        var paperLink = rowData[9]
-        table.appendChild(createRow(rowData.slice(0, 7), false, isVerified, isConversational, paperLink));
+        var paperLink = rowData[14]
+        var weightLink = rowData[15]
+        table.appendChild(createRow(rowData.slice(0, 14), false, paperLink, weightLink));
       });
     }
 
-    function createRow(rowData, isHeader, isVerified, isConversational, paperLink) {
+    function createRow(rowData, isHeader, paperLink, weightLink) {
       var row = document.createElement('tr');
-
       rowData.forEach(function(cellData, columnIndex) {
         var cell = isHeader ? document.createElement('th') : document.createElement('td');
-
         if (isHeader) {
           cell.textContent = cellData;
-        } else if (columnIndex === 1) {
+        } else if (columnIndex === 1 && cellData !== 'N/A') {
             var link = document.createElement('a');
             link.setAttribute('href', paperLink);
             link.textContent = cellData;
             link.setAttribute('target', '_blank');
             cell.appendChild(link);
-
-            if (isVerified) { // add a certified emoji
-              var verified = document.createElement('img');
-              verified.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg';
-              verified.title = 'Verified';
-              verified.style.width = '15px';
-              verified.style.height = '15px';
-              verified.style.marginLeft = '5px';
-              cell.appendChild(verified);
-            }
-
-            if (isConversational) { // add a conversational emoji beside the link
-              var conversational = document.createElement('img');
-              conversational.src = 'https://em-content.zobj.net/source/apple/354/page-with-curl_1f4c3.png';
-              conversational.title = 'Conversational';
-              conversational.style.width = '15px';
-              conversational.style.height = '15px';
-              conversational.style.marginLeft = '5px';
-              cell.appendChild(conversational);
-            }
+        } else if (columnIndex === 2 && cellData !== 'N/A') {
+            var link = document.createElement('a');
+            link.setAttribute('href', weightLink);
+            link.textContent = cellData;
+            link.setAttribute('target', '_blank');
+            cell.appendChild(link);
         } else {
             cell.textContent = cellData;
         }
-        
-
         row.appendChild(cell);
       });
-
       return row;
     }
 
     function updateTable() {
-      var selectedDatasets = Array.from(document.querySelectorAll('#datasetCheckboxes input:checked')).map(checkbox => checkbox.value);
-      var selectedModels = Array.from(document.querySelectorAll('#modelCheckboxes input:checked')).map(checkbox => checkbox.value);
+      var selectedSplits = Array.from(document.querySelectorAll('#splitCheckboxes input:checked')).map(checkbox => checkbox.value);
+      var selectedWeights = Array.from(document.querySelectorAll('#weightCheckboxes input:checked')).map(checkbox => checkbox.value);
       var selectedSourceLangs = Array.from(document.querySelectorAll('#sourceLangCheckboxes input:checked')).map(checkbox => checkbox.value);
       var selectedTargetLangs = Array.from(document.querySelectorAll('#targetLangCheckboxes input:checked')).map(checkbox => checkbox.value);
       var sortBy = Array.from(document.querySelectorAll('#sortByCheckboxes input:checked')).map(checkbox => checkbox.value)[0];
 
       var filteredData = data.filter(function(row) {
-        // Check if the first cell contains 'Dataset' (assuming it's the header row)
-        var isHeaderRow = row[0] === 'Dataset';
-
+        // Check if the first cell contains 'Split' (assuming it's the header row)
+        var isHeaderRow = row[0] === 'Split';
         return (
           isHeaderRow ||
-          (selectedDatasets.includes('All') || selectedDatasets.includes(row[0])) &&
-          (selectedModels.includes('All') || selectedModels.includes(row[1])) &&
-          (selectedSourceLangs.includes('All') || selectedSourceLangs.includes(row[2])) &&
-          (selectedTargetLangs.includes('All') || selectedTargetLangs.includes(row[3]))
+          (selectedSplits.includes('All') || selectedSplits.includes(row[0])) &&
+          (selectedWeights.includes('All') || selectedWeights.includes(row[2])) 
         );
       });
 
@@ -290,9 +270,17 @@
 
     function sortTableBy(sortBy, filteredData) {
       var sortColumns = {
-        'Pass@1*': 4,
-        'Pass@1': 5,
-        'Pass@5': 6,
+        'Reasoning Overall': 3,
+        '(R) Text-in-Chart': 4,
+        '(R) Text-in-General': 5,
+        '(R) Number-in-Chart': 6,
+        '(R) Number-in-General': 7,
+        'Descriptive Overall': 8,
+        '(D) Information Extraction': 9,
+        '(D) Enumeration': 10,
+        '(D) Pattern Recognition': 11,
+        '(D) Counting': 12,
+        '(D) Compositionality': 13
       };
 
       var sortColumn = sortColumns[sortBy]; // Get the column index based on the selected criteria
@@ -320,7 +308,7 @@
   <body>
     <div id="content" class="container-fluid d-flex flex-column gap-3">
 
-      <div class="align-items-center justify-content-center" style="width: 100%; display: flex;">
+      <!-- <div class="align-items-center justify-content-center" style="width: 100%; display: flex;">
         <img src="misc/ibm.png" style="width: 20%; margin-right: auto;" alt="IBM">
         <h1 class="text-nowrap mt-5" style="font-size: 400%; margin-bottom: 4%;">🏆 Code Lingua 🏆</h1>
         <img src="misc/uiuc.png" style="width: 15%; margin-left: auto; margin-top: 1%;" alt="Intelligent CAT">
@@ -359,18 +347,18 @@
         &nbsp;&nbsp;<span style="color: teal;">year<span style="color: black;"> = </span></span>{2024}<span style="color: black;">,</span><br>
         &nbsp;&nbsp;<span style="color: teal;">organization</span><span style="color: black;"> = </span>{IEEE Computer Society}<br>
         <span style="color: black;">}</span></strong>
-      </code>
+      </code> -->
       
       <!-- <div class="container-fluid d-flex flex-column align-items-center">
         <h3 class="fw-light justify-content-center">📣 We are working hard on completing the leaderboard with 30+ models 🚀</h3>
         <h3 class="fw-light justify-content-center">⚠️ The leaderboard will be publicly announced early April 2024 🗓️</h3>
       </div> -->
 
-      <div class="container-fluid d-flex flex-column align-items-center">
+      <!-- <div class="container-fluid d-flex flex-column align-items-center">
         <p class="fw-light justify-content-center" style="font-size: larger;">✉️ Reach out to <a href="https://alirezai.cs.illinois.edu" target="_blank">Ali</a> (<a href="mailto:alirezai@illinois.edu">alirezai@illinois.edu</a>) or <a href="https://rangeetpan.github.io/" target="_blank">Rangeet</a> (<a href="mailto:rangeet.pan@ibm.com">rangeet.pan@ibm.com</a>) for questions about the leaderboard ✉️</p>
-      </div>
+      </div> -->
 
-      <div class="checkbox-container">
+      <!-- <div class="checkbox-container">
         <div style="margin: 20px 0; border-top: 2px solid black;"></div>
         <div>
           <label style="font-weight: bolder;">Model:</label>
@@ -491,80 +479,69 @@
             </div>
 
           </div>
-          <!-- <label style="font-weight: bolder; color: red;">[Models in progress: DeepSeekCoder-33B-Instruct]</label> -->
         </div>
       </div>
-      <div style="border-top: 1px dashed black;"></div>
+      <div style="border-top: 1px dashed black;"></div> -->
       <div class="checkbox-container2">
         <div>
-          <label style="font-weight: bolder;">Dataset:</label>
-          <div id="datasetCheckboxes">
-            <input type="radio" id="All Datasets" name="dataset" value="All Datasets" checked>
-            <label style="margin-left: 5px;" for="All Datasets">All Datasets</label>
+          <label style="font-weight: bolder;">Split:</label>
+          <div id="splitCheckboxes">
+            <input type="radio" id="Val" name="split" value="Val" checked>
+            <label style="margin-left: 5px;" for="Val">Val</label>
             <br>
-            <input type="radio" id="Avatar" name="dataset" value="Avatar">
-            <label style="margin-left: 5px;" for="Avatar">Avatar</label>
-            <br>
-            <input type="radio" id="CodeNet" name="dataset" value="CodeNet">
-            <label style="margin-left: 5px;" for="CodeNet">CodeNet</label>
+            <input type="radio" id="Test" name="split" value="Test">
+            <label style="margin-left: 5px;" for="Test">Test</label>
           </div>
         </div>
 
         <div>
-          <label style="font-weight: bolder;">Source Language:</label>
-          <div id="sourceLangCheckboxes">
-            <input type="checkbox" id="CSource" name="sourceLang" value="C">
-            <label style="margin-left: 5px;" for="CSource">C</label>
+          <label style="font-weight: bolder;">Model Weights:</label>
+          <div id="weightCheckboxes">
+            <input type="checkbox" id="Close" name="weight" value="Close" checked>
+            <label style="margin-left: 5px;" for="Close">Close</label>
             <br>
-            <input type="checkbox" id="CPlusPlusSource" name="sourceLang" value="C++">
-            <label style="margin-left: 5px;" for="CPlusPlusSource">C++</label>
-            <br>
-            <input type="checkbox" id="GoSource" name="sourceLang" value="Go">
-            <label style="margin-left: 5px;" for="GoSource">Go</label>
-            <br>
-            <input type="checkbox" id="JavaSource" name="sourceLang" value="Java">
-            <label style="margin-left: 5px;" for="JavaSource">Java</label>
-            <br>
-            <input type="checkbox" id="PythonSource" name="sourceLang" value="Python" checked>
-            <label style="margin-left: 5px;" for="PythonSource">Python</label>
-          </div>
-        </div>
-        <div>
-          <label style="font-weight: bolder;">Target Language:</label>
-          <div id="targetLangCheckboxes">
-
-            <input type="checkbox" id="CTarget" name="targetLang" value="C">
-            <label style="margin-left: 5px;" for="CTarget">C</label>
-            <br>
-
-            <input type="checkbox" id="CPlusPlusTarget" name="targetLang" value="C++">
-            <label style="margin-left: 5px;" for="CPlusPlusTarget">C++</label>
-            <br>
-
-            <input type="checkbox" id="GoTarget" name="targetLang" value="Go">
-            <label style="margin-left: 5px;" for="GoTarget">Go</label>
-            <br>
-
-            <input type="checkbox" id="JavaTarget" name="targetLang" value="Java" checked>
-            <label style="margin-left: 5px;" for="JavaTarget">Java</label>
-            <br>
-
-            <input type="checkbox" id="PythonTarget" name="targetLang" value="Python">
-            <label style="margin-left: 5px;" for="PythonTarget">Python</label>
-
+            <input type="checkbox" id="Open" name="weight" value="Open" checked>
+            <label style="margin-left: 5px;" for="Open">Open</label>
           </div>
         </div>
         <div>
           <label style="font-weight: bolder;">Sort By:</label>
           <div id="sortByCheckboxes">
-            <input type="radio" id="Pass1Star" name="sortBy" value="Pass@1*" checked>
-            <label for="Pass1Star">Pass@1*</label>
-            <br>
-            <input type="radio" id="Pass1" name="sortBy" value="Pass@1">
-            <label for="Pass1">Pass@1</label>
-            <br>
-            <input type="radio" id="Pass5" name="sortBy" value="Pass@5">
-            <label for="Pass5">Pass@5</label>
+            <div>
+                <input type="radio" id="Reasoning Overall" name="sortBy" value="Reasoning Overall" checked>
+                <label for="Reasoning Overall">Reasoning Overall</label>
+                <br>
+                <input type="radio" id="(R) Text-in-Chart" name="sortBy" value="(R) Text-in-Chart">
+                <label for="(R) Text-in-Chart">(R) Text-in-Chart</label>
+                <br>
+                <input type="radio" id="(R) Text-in-General" name="sortBy" value="(R) Text-in-General">
+                <label for="(R) Text-in-General">(R) Text-in-General</label>
+                <br>
+                <input type="radio" id="(R) Number-in-Chart" name="sortBy" value="(R) Number-in-Chart">
+                <label for="(R) Number-in-Chart">(R) Number-in-Chart</label>
+                <br>
+                <input type="radio" id="(R) Number-in-General" name="sortBy" value="(R) Number-in-General">
+                <label for="(R) Number-in-General">(R) Number-in-General</label>
+            </div>
+            <div>
+                <input type="radio" id="Descriptive Overall" name="sortBy" value="Descriptive Overall">
+                <label for="Descriptive Overall">Descriptive Overall</label>
+                <br>
+                <input type="radio" id="(D) Information Extraction" name="sortBy" value="(D) Information Extraction">
+                <label for="(D) Information Extraction">(D) Information Extraction</label>
+                <br>
+                <input type="radio" id="(D) Enumeration" name="sortBy" value="(D) Enumeration">
+                <label for="(D) Enumeration">(D) Enumeration</label>
+                <br>
+                <input type="radio" id="(D) Pattern Recognition" name="sortBy" value="(D) Pattern Recognition">
+                <label for="(D) Pattern Recognition">(D) Pattern Recognition</label>
+                <br>
+                <input type="radio" id="(D) Counting" name="sortBy" value="(D) Counting">
+                <label for="(D) Counting">(D) Counting</label>
+                <br>
+                <input type="radio" id="(D) Compositionality" name="sortBy" value="(D) Compositionality" checked>
+                <label for="(D) Compositionality">(D) Compositionality</label>
+            </div>
           </div>
         </div>
         <div style="margin: 20px 0; border-top: 2px solid black;"></div>
