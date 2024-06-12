@@ -1,5 +1,4 @@
-Split,Model,Weights,All-R,TC,TG,NC,NG,All-D,INFO,
-ENUM,PATT,CNTG,COMP,PaperLink,WeightLink
+Split,Model,Weights,All-R,TC,TG,NC,NG,All-D,INFO,ENUM,PATT,CNTG,COMP,PaperLink,WeightLink
 Val,A,Open,1,1,1,1,1,1,1,1,1,1,1,N/A,https://charxiv.github.io
 Val,B,Close,2,2,2,2,2,2,2,2,2,2,2,https://charxiv.github.io,N/A
 Test,C,Open,3,3,3,3,3,3,3,3,3,3,3,https://charxiv.github.io,https://charxiv.github.io
