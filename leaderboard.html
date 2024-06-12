@@ -231,13 +231,13 @@
         }
         if (isHeader) {
           cell.textContent = cellData;
-        } else if (columnIndex === 1 && cellData != '') {
+        } else if (columnIndex === 1 && paperLink != '') {
             var link = document.createElement('a');
             link.setAttribute('href', paperLink);
             link.textContent = cellData;
             link.setAttribute('target', '_blank');
             cell.appendChild(link);
-        } else if (columnIndex === 2 && cellData != '') {
+        } else if (columnIndex === 2 && weightLink != '') {
             var link = document.createElement('a');
             link.setAttribute('href', weightLink);
             link.textContent = cellData;
