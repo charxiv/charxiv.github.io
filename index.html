@@ -45,27 +45,6 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
 
-  <script type="application/javascript">
-
-    function resizeIFrameToFitContent( iFrame ) {
-    
-        iFrame.width  = iFrame.contentWindow.document.body.scrollWidth;
-        iFrame.height = iFrame.contentWindow.document.body.scrollHeight;
-    }
-    
-    window.addEventListener('DOMContentLoaded', function(e) {
-    
-        var iFrame = document.getElementById( 'iFrame1' );
-        resizeIFrameToFitContent( iFrame );
-    
-        // or, to resize all iframes:
-        var iframes = document.querySelectorAll("iframe");
-        for( var i = 0; i < iframes.length; i++) {
-            resizeIFrameToFitContent( iframes[i] );
-        }
-    } );
-    
-    </script>
 
   <!-- juxtapose -->
   <script src="static/js/juxtapose.js"></script>
@@ -279,7 +258,7 @@
                   We evaluate general-purpose MLLMs on CharXiv and provide a leaderboard for the community to track progress. Note that all models are evaluated in a zero-shot setting with a set of instructions for each question type.
                 </p>
                 <div class="has-text-centered">
-                  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" ></iframe>
+                  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:200px;width:100%;border:none;overflow:hidden;"></iframe>
                 </div>
               </div>
         
