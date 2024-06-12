@@ -229,13 +229,12 @@
 <!-- Abstract -->
 <section class="section">
   <div class="container is-max-desktop">
-    <!-- abstract -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">
           <span class="fancy_text_color">Introduction</span>
         </h2>
-          <div style="margin-bottom: 1em;">
+        <div style="margin-bottom: 1em;">
           <p>
             Chart understanding plays a pivotal role when applying Multimodal Large Language Models (MLLMs) to real-world tasks such as analyzing scientific papers or financial reports. However, existing datasets often focus on oversimplified and homogeneous charts with template-based questions, leading to an over-optimistic measure of progress. In this work, we propose <span class="fancy_text_color">CharXiv</span>, a comprehensive evaluation suite involving 2,323 natural, challenging, and diverse charts from scientific papers. <span class="fancy_text_color">CharXiv</span> includes two types of questions: (1) descriptive questions about examining basic chart elements and (2) reasoning questions that require synthesizing information across complex visual elements in the chart. To ensure quality, all charts and questions are handpicked, curated, and verified by human experts. Our results reveal a substantial, previously underestimated gap between the reasoning skills of the strongest proprietary model (i.e., GPT-4o), which achieves 47.1% accuracy, and the strongest open-source model (i.e., InternVL Chat V1.5), which achieves 29.2%. All models lag far behind human performance of 80.5%, underscoring weaknesses in the chart understanding capabilities of existing MLLMs. We hope <span class="fancy_text_color">CharXiv</span> facilitates future research on MLLM chart understanding by providing a more realistic and faithful measure of progress.
           </p>
@@ -248,26 +247,28 @@
             <b>Figure:</b> Many open-source models surpass proprietary model performance on existing benchmarks (subsets of DVQA, FigureQA and ChartQA from MathVista) yet fail consistently in reasoning questions from <span class="fancy_text_color">CharXiv
           </p>
         </div>
-        
-        <div class="columns is-centered m-6">
-          <div class="column is-full has-text-centered content">
-            <h2 class="title is-3" id="leaderboard"><span class="fancy_text_color">Leaderboard</span></h2>
-            <div class="content">
-              <div class="content has-text-justified">
-                <p>
-                  We evaluate general-purpose MLLMs on CharXiv and provide a leaderboard for the community to track progress. Note that all models are evaluated in a zero-shot setting with a set of instructions for each question type.
-                </p>
-                <div class="has-text-centered">
-                  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:200px;width:100%;border:none;overflow:hidden;"></iframe>
-                </div>
-              </div>
-        
-        <div class="is-size-5 publication-authors">
-          <span class="author-block" style="font-size: 120%;"><i>The website is being constructed. The following contents are inherited from our previous project and haven't updated. We will roll out all the update for this project soon!</i></span>
-          <div class="has-text-centered">
-            <img src="./static/images/charxiv_logo.png", width="200"/>
+      
+
+        <h2 class="title is-3" id="leaderboard"><span class="fancy_text_color">
+          Leaderboard</span>
+        </h2>
+        <div class="content">
+          <div class="content has-text-justified">
+            <p>
+              We evaluate general-purpose MLLMs on CharXiv and provide a leaderboard for the community to track progress. Note that all models are evaluated in a zero-shot setting with a set of instructions for each question type.
+            </p>
+            <div class="has-text-centered">
+              <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:200px;width:100%;border:none;overflow:hidden;"></iframe>
+            </div>
           </div>
         </div>
+      
+      <div class="is-size-5 publication-authors">
+        <span class="author-block" style="font-size: 120%;"><i>The website is being constructed. The following contents are inherited from our previous project and haven't updated. We will roll out all the update for this project soon!</i></span>
+        <div class="has-text-centered">
+          <img src="./static/images/charxiv_logo.png", width="200"/>
+        </div>
+      </div>
               
 
 
@@ -317,18 +318,16 @@
 
         
   
-        <h2 class="subtitle has-text-centered">
+        <!-- <h2 class="subtitle has-text-centered">
           <b>Given a user-specified text prompt consisting of object compositions</b>
-          <!-- Given a user-specified text prompt consisting of object compositions -->
            that are <i>unlikely</i> to appear simultaneously in a natural scene, our proposed 
            <span class="fancy_text_color">
-            <!-- <b>TokenCompose</b> -->
             TokenCompose
            </span>
             method attains significant performance enhancement over the baseline Latent Diffusion Model (<i>e.g.,</i> Stable Diffusion) by being able to generate multiple categories of instances from the prompt more accurately.
         </h2>
       </div>
-    </div>
+    </div> -->
 
     <br>
 
