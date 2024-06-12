@@ -217,9 +217,6 @@
       var row = document.createElement('tr');
       rowData.forEach(function(cellData, columnIndex) {
         var cell = isHeader ? document.createElement('th') : document.createElement('td');
-        if (columnIndex === 1) {
-          console.log(paperLink);
-        }
         if (isHeader) {
           cell.textContent = cellData;
         } else if (columnIndex === 1 && paperLink != '') {
@@ -245,8 +242,6 @@
     function updateTable() {
       var selectedSplits = Array.from(document.querySelectorAll('#splitCheckboxes input:checked')).map(checkbox => checkbox.value);
       var selectedWeights = Array.from(document.querySelectorAll('#weightCheckboxes input:checked')).map(checkbox => checkbox.value);
-      var selectedSourceLangs = Array.from(document.querySelectorAll('#sourceLangCheckboxes input:checked')).map(checkbox => checkbox.value);
-      var selectedTargetLangs = Array.from(document.querySelectorAll('#targetLangCheckboxes input:checked')).map(checkbox => checkbox.value);
       var sortBy = Array.from(document.querySelectorAll('#sortByCheckboxes input:checked')).map(checkbox => checkbox.value)[0];
 
       var filteredData = data.filter(function(row) {
