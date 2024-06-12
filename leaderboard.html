@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400&display=swap" rel="stylesheet">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Code Lingua</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <link rel="icon" href = "https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/1024px/1f916.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+
+    <style>
+      body {
+        font-family: 'Trebuchet MS', sans-serif;
+        background-color: #FFFFFF;
+        color: #000000;
+      }
+
+      #content {
+        width: 75%;
+      }
+
+      table {
+        width: 100%;
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        border: 1.5px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+
+      th {
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        margin: auto;
+        border-collapse: collapse;
+      }
+
+      table tr:first-child {
+        background-color: lightgray;
+      }
+      th, td {
+        border: 1.5px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+
+      th {
+        font-weight: bold;
+      }
+
+      .dropdown-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .dropdown-container div {
+        display: flex;
+        align-items: center;
+      }
+
+      .dropdown-container label {
+        min-width: auto;
+        margin-right: 10px;
+      }
+
+      .dropdown-container select {
+        min-width: 150px;
+        padding: 5px;
+      }
+
+      .citation-box {
+            border-left: 5px solid #333;
+            padding: 10px;
+            margin: 10px;
+            background-color: #f9f9f9;
+            font-style: italic;
+      }
+
+      .checkbox-container {
+        text-align: left;
+      }
+
+      .checkbox-container label {
+        margin-right: 10px; /* Adjust the value as needed */
+      }
+
+      .checkbox-container2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .checkbox-container2 > div {
+        flex: 1 1 25%;
+        /* margin-right: 1%; */
+      }
+
+      .checkbox-container2 > div:last-child {
+        margin-right: 0;
+      }
+
+      #modelCheckboxes {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      #modelCheckboxes div {
+        white-space: nowrap;
+        margin-right: 10px;
+        margin-bottom: 5px; /* Add margin bottom to create space between rows */
+      }
+
+      #notes {
+        font-size: 1em;
+      }
+
+      #notes h3 {
+        margin-top: 1em;
+        font-size: 2em;
+        text-align: center;
+      }
+
+      #notes li {
+        font-size: 1.2em;
+        font-weight: 300;
+        margin: 1em;
+      }
+
+      @media screen and (max-width: 1400px) {
+        body {
+          font-size: 1.6vw;
+        }
+
+        #content {
+          width: 100%;
+        }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        h2 {
+          font-size: 1.6em;
+        }
+
+        h3 {
+          font-size: 1.2em;
+        }
+
+        table {
+          font-size: small;
+        }
+
+        
+      }
+
+
+    </style>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var file = 'results.csv'; // Change this to your CSV file path
+    var data;
+    var header;
+
+    fetch(file)
+      .then(response => response.text())
+      .then(csvData => {
+        data = parseCSV(csvData);
+        header = data.shift(); // Remove and store the header row
+
+        renderTable(data);
+        sortTableBy('Pass@1*', data); // Sort the table by Pass@1* initially
+        updateTable(); // Filter the table based on the selected checkboxes
+
+        document.getElementById('datasetCheckboxes').addEventListener('change', updateTable);
+        document.getElementById('modelCheckboxes').addEventListener('change', updateTable);
+        document.getElementById('sourceLangCheckboxes').addEventListener('change', updateTable);
+        document.getElementById('targetLangCheckboxes').addEventListener('change', updateTable);
+        document.getElementById('sortByCheckboxes').addEventListener('change', updateTable); // Listen for sorting column change
+      })
+      .catch(error => console.error('Error:', error));
+
+    function parseCSV(csvData) {
+      var lines = csvData.split('\n');
+      var parsedData = [];
+
+      lines.forEach(function(line) {
+        var cells = line.split(',');
+        parsedData.push(cells);
+      });
+
+      return parsedData;
+    }
+
+    function renderTable(tableData) {
+      var table = document.getElementById('csvTable');
+
+      table.innerHTML = '';
+      table.appendChild(createRow(header.slice(0, 7), true, false, false, "")); // Re-insert the header row
+
+      tableData.forEach(function(rowData) {
+        var isVerified = rowData[7] === 'Y'
+        var isConversational = rowData[8] === 'Y'
+        var paperLink = rowData[9]
+        table.appendChild(createRow(rowData.slice(0, 7), false, isVerified, isConversational, paperLink));
+      });
+    }
+
+    function createRow(rowData, isHeader, isVerified, isConversational, paperLink) {
+      var row = document.createElement('tr');
+
+      rowData.forEach(function(cellData, columnIndex) {
+        var cell = isHeader ? document.createElement('th') : document.createElement('td');
+
+        if (isHeader) {
+          cell.textContent = cellData;
+        } else if (columnIndex === 1) {
+            var link = document.createElement('a');
+            link.setAttribute('href', paperLink);
+            link.textContent = cellData;
+            link.setAttribute('target', '_blank');
+            cell.appendChild(link);
+
+            if (isVerified) { // add a certified emoji
+              var verified = document.createElement('img');
+              verified.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg';
+              verified.title = 'Verified';
+              verified.style.width = '15px';
+              verified.style.height = '15px';
+              verified.style.marginLeft = '5px';
+              cell.appendChild(verified);
+            }
+
+            if (isConversational) { // add a conversational emoji beside the link
+              var conversational = document.createElement('img');
+              conversational.src = 'https://em-content.zobj.net/source/apple/354/page-with-curl_1f4c3.png';
+              conversational.title = 'Conversational';
+              conversational.style.width = '15px';
+              conversational.style.height = '15px';
+              conversational.style.marginLeft = '5px';
+              cell.appendChild(conversational);
+            }
+        } else {
+            cell.textContent = cellData;
+        }
+        
+
+        row.appendChild(cell);
+      });
+
+      return row;
+    }
+
+    function updateTable() {
+      var selectedDatasets = Array.from(document.querySelectorAll('#datasetCheckboxes input:checked')).map(checkbox => checkbox.value);
+      var selectedModels = Array.from(document.querySelectorAll('#modelCheckboxes input:checked')).map(checkbox => checkbox.value);
+      var selectedSourceLangs = Array.from(document.querySelectorAll('#sourceLangCheckboxes input:checked')).map(checkbox => checkbox.value);
+      var selectedTargetLangs = Array.from(document.querySelectorAll('#targetLangCheckboxes input:checked')).map(checkbox => checkbox.value);
+      var sortBy = Array.from(document.querySelectorAll('#sortByCheckboxes input:checked')).map(checkbox => checkbox.value)[0];
+
+      var filteredData = data.filter(function(row) {
+        // Check if the first cell contains 'Dataset' (assuming it's the header row)
+        var isHeaderRow = row[0] === 'Dataset';
+
+        return (
+          isHeaderRow ||
+          (selectedDatasets.includes('All') || selectedDatasets.includes(row[0])) &&
+          (selectedModels.includes('All') || selectedModels.includes(row[1])) &&
+          (selectedSourceLangs.includes('All') || selectedSourceLangs.includes(row[2])) &&
+          (selectedTargetLangs.includes('All') || selectedTargetLangs.includes(row[3]))
+        );
+      });
+
+      sortTableBy(sortBy, filteredData);
+    }
+
+    function sortTableBy(sortBy, filteredData) {
+      var sortColumns = {
+        'Pass@1*': 4,
+        'Pass@1': 5,
+        'Pass@5': 6,
+      };
+
+      var sortColumn = sortColumns[sortBy]; // Get the column index based on the selected criteria
+
+      if (sortColumn !== undefined) {
+        filteredData.sort(function(a, b) {
+          var passA = parseFloat(a[sortColumn]);
+          var passB = parseFloat(b[sortColumn]);
+
+          if (!isNaN(passA) && !isNaN(passB)) {
+            return passB - passA;
+          } else {
+            return isNaN(passA) ? 1 : -1;
+          }
+        });
+
+        renderTable(filteredData); // Render the table with the newly sorted data
+      }
+    }
+  });
+
+  </script>
+  </head>
+
+  <body>
+    <div id="content" class="container-fluid d-flex flex-column gap-3">
+
+      <div class="align-items-center justify-content-center" style="width: 100%; display: flex;">
+        <img src="misc/ibm.png" style="width: 20%; margin-right: auto;" alt="IBM">
+        <h1 class="text-nowrap mt-5" style="font-size: 400%; margin-bottom: 4%;">🏆 Code Lingua 🏆</h1>
+        <img src="misc/uiuc.png" style="width: 15%; margin-left: auto; margin-top: 1%;" alt="Intelligent CAT">
+      </div>
+      <h3 class="fw-light text-nowrap" style="align-self: center;"><small id="warning">This leaderboard evaluates LLMs in Programming Language Translation<br></small></h2>
+      <div class="d-flex flex-row justify-content-center gap-3">
+        <a href="https://github.com/codetlingua/codetlingua"><img
+            src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"
+            alt="github" class="img-fluid"></a>
+        <a href="https://huggingface.co/iidai"><img src="https://img.shields.io/badge/%F0%9F%A4%97Huggingface-lightsalmon.svg?style=for-the-badge"
+            alt="huggingface" class="img-fluid"></a>
+        <a href="http://arxiv.org/abs/2308.03109"><img
+            src="https://img.shields.io/badge/Paper-ICSE'24-a55fed.svg?style=for-the-badge" alt="paper"
+            class="img-fluid"></a>
+      </div>
+      <div class="d-flex flex-row justify-content-center gap-1 mt-3 mb-0" style="font-size: larger;">
+        <p> 🚨 </p>
+        <a href="https://github.com/codetlingua/codetlingua/issues/new?assignees=&labels=model+eval&projects=&template=model_eval_request.yml&title=%F0%9F%A4%97+%5BREQUEST%5D+-+%3CMODEL_NAME%3E">File a request</a>
+        <p>to add your models on our leaderboard!🚨</p>
+      </div>
+
+      <div class="d-flex flex-row justify-content-center">
+        <p style="font-size: large;"> While other leaderboards assess abilities of LLMs to understand Natural Language (NL) for code synthesis, the ultimate way of assessing whether LLMs understand code syntax and semantics is code translation. <strong>Code Lingua</strong> serves as such leaderboard, and compares the ability of LLMs to understand what the code implements in source language and translate the same semantics in target language. The dataset used in this leaderboard can be accessed on <a href="https://huggingface.co/iidai">HuggingFace</a> 🤗.</p>
+      </div>
+
+      <div class="container-fluid d-flex flex-column align-items-center">
+        <h3 class="fw-light justify-content-center">🙏 Please cite our paper if you are using this leaderboard in your work 🙏</h3>
+      </div>
+
+      <code class="citation-box">
+        <strong><span style="color: rgb(0, 0, 130);">@inproceedings</span><span style="color: black;">{</span><span style="color: darkred;">pan2024lost</span><span style="color: black;">,</span><br>
+        &nbsp;&nbsp;<span style="color: teal;">title</span><span style="color: black;"> = </span>{Lost in translation: A study of bugs introduced by large language models while translating code}<span style="color: black;">,</span><br>
+        &nbsp;&nbsp;<span style="color: teal;">author</span><span style="color: black;"> = </span>{Pan, Rangeet and Ibrahimzada, Ali Reza and Krishna, Rahul and Sankar, Divya and Wassi, Lambert Pouguem and Merler, Michele and Sobolev, Boris and Pavuluri, Raju and Sinha, Saurabh and Jabbarvand, Reyhaneh}<span style="color: black;">,</span><br>
+        &nbsp;&nbsp;<span style="color: teal;">booktitle</span><span style="color: black;"> = </span>{2024 IEEE/ACM 46th International Conference on Software Engineering (ICSE)}<span style="color: black;">,</span><br>
+        &nbsp;&nbsp;<span style="color: teal;">pages</span><span style="color: black;"> = </span>{866--866}<span style="color: black;">,</span><br>
+        &nbsp;&nbsp;<span style="color: teal;">year<span style="color: black;"> = </span></span>{2024}<span style="color: black;">,</span><br>
+        &nbsp;&nbsp;<span style="color: teal;">organization</span><span style="color: black;"> = </span>{IEEE Computer Society}<br>
+        <span style="color: black;">}</span></strong>
+      </code>
+      
+      <!-- <div class="container-fluid d-flex flex-column align-items-center">
+        <h3 class="fw-light justify-content-center">📣 We are working hard on completing the leaderboard with 30+ models 🚀</h3>
+        <h3 class="fw-light justify-content-center">⚠️ The leaderboard will be publicly announced early April 2024 🗓️</h3>
+      </div> -->
+
+      <div class="container-fluid d-flex flex-column align-items-center">
+        <p class="fw-light justify-content-center" style="font-size: larger;">✉️ Reach out to <a href="https://alirezai.cs.illinois.edu" target="_blank">Ali</a> (<a href="mailto:alirezai@illinois.edu">alirezai@illinois.edu</a>) or <a href="https://rangeetpan.github.io/" target="_blank">Rangeet</a> (<a href="mailto:rangeet.pan@ibm.com">rangeet.pan@ibm.com</a>) for questions about the leaderboard ✉️</p>
+      </div>
+
+      <div class="checkbox-container">
+        <div style="margin: 20px 0; border-top: 2px solid black;"></div>
+        <div>
+          <label style="font-weight: bolder;">Model:</label>
+          <div id="modelCheckboxes" style="display: flex;">
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="Claude-3-Opus" name="model" value="Claude-3-Opus" checked>
+              <label style="margin-left: 5px;" for="Claude-3-Opus">Claude-3-Opus</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="CodeGemma-7b-INS" name="model" value="CodeGemma-7b-INS" checked>
+              <label style="margin-left: 5px;" for="CodeGemma-7b-INS">CodeGemma-7b-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="CodeLlama-7B" name="model" value="CodeLlama-7B" checked>
+              <label style="margin-left: 5px;" for="CodeLlama-7B">CodeLlama-7B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="CodeLlama-13B" name="model" value="CodeLlama-13B" checked>
+              <label style="margin-left: 5px;" for="CodeLlama-13B">CodeLlama-13B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="CodeLlama-34B" name="model" value="CodeLlama-34B" checked>
+              <label style="margin-left: 5px;" for="CodeLlama-34B">CodeLlama-34B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="DeepSeekCoder-1.3B-INS" name="model" value="DeepSeekCoder-1.3B-INS" checked>
+              <label style="margin-left: 5px;" for="DeepSeekCoder-1.3B-INS">DeepSeekCoder-1.3B-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="DeepSeekCoder-6.7B-INS" name="model" value="DeepSeekCoder-6.7B-INS" checked>
+              <label style="margin-left: 5px;" for="DeepSeekCoder-6.7B-INS">DeepSeekCoder-6.7B-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="DeepSeekCoder-33B-INS" name="model" value="DeepSeekCoder-33B-INS" checked>
+              <label style="margin-left: 5px;" for="DeepSeekCoder-33B-INS">DeepSeekCoder-33B-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GraniteCode-3b-INS" name="model" value="GraniteCode-3b-INS" checked>
+              <label style="margin-left: 5px;" for="GraniteCode-3b-INS">GraniteCode-3b-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GraniteCode-8b-INS" name="model" value="GraniteCode-8b-INS" checked>
+              <label style="margin-left: 5px;" for="GraniteCode-8b-INS">GraniteCode-8b-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GraniteCode-20b-INS" name="model" value="GraniteCode-20b-INS" checked>
+              <label style="margin-left: 5px;" for="GraniteCode-20b-INS">GraniteCode-20b-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GraniteCode-34b-INS" name="model" value="GraniteCode-34b-INS" checked>
+              <label style="margin-left: 5px;" for="GraniteCode-34b-INS">GraniteCode-34b-INS</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="Gemini-1.0-Pro" name="model" value="Gemini-1.0-Pro" checked>
+              <label style="margin-left: 5px;" for="Gemini-1.0-Pro">Gemini-1.0-Pro</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GPT-4-0125-Preview" name="model" value="GPT-4-0125-Preview" checked>
+              <label style="margin-left: 5px;" for="GPT-4-0125-Preview">GPT-4-0125-Preview</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GPT-4-0613" name="model" value="GPT-4-0613" checked>
+              <label style="margin-left: 5px;" for="GPT-4-0613">GPT-4-0613</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="GPT-3.5-Turbo" name="model" value="GPT-3.5-Turbo" checked>
+              <label style="margin-left: 5px;" for="GPT-3.5-Turbo">GPT-3.5-Turbo</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="Magicoder-S-CL-7B" name="model" value="Magicoder-S-CL-7B" checked>
+              <label style="margin-left: 5px;" for="Magicoder-S-CL-7B">Magicoder-S-CL-7B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="Magicoder-S-DS-6.7B" name="model" value="Magicoder-S-DS-6.7B" checked>
+              <label style="margin-left: 5px;" for="Magicoder-S-DS-6.7B">Magicoder-S-DS-6.7B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="Mixtral-8x7b-INS-13B" name="model" value="Mixtral-8x7b-INS-13B" checked>
+              <label style="margin-left: 5px;" for="Mixtral-8x7b-INS-13B">Mixtral-8x7b-INS-13B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="OctoCoder-15.5B" name="model" value="OctoCoder-15.5B" checked>
+              <label style="margin-left: 5px;" for="OctoCoder-15.5B">OctoCoder-15.5B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="Phi-2-2.7B" name="model" value="Phi-2-2.7B" checked>
+              <label style="margin-left: 5px;" for="Phi-2-2.7B">Phi-2-2.7B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="WizardCoder-15B" name="model" value="WizardCoder-15B" checked>
+              <label style="margin-left: 5px;" for="WizardCoder-15B">WizardCoder-15B</label>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <input type="checkbox" id="WizardCoder-33B" name="model" value="WizardCoder-33B" checked>
+              <label style="margin-left: 5px;" for="WizardCoder-33B">WizardCoder-33B</label>
+            </div>
+
+          </div>
+          <!-- <label style="font-weight: bolder; color: red;">[Models in progress: DeepSeekCoder-33B-Instruct]</label> -->
+        </div>
+      </div>
+      <div style="border-top: 1px dashed black;"></div>
+      <div class="checkbox-container2">
+        <div>
+          <label style="font-weight: bolder;">Dataset:</label>
+          <div id="datasetCheckboxes">
+            <input type="radio" id="All Datasets" name="dataset" value="All Datasets" checked>
+            <label style="margin-left: 5px;" for="All Datasets">All Datasets</label>
+            <br>
+            <input type="radio" id="Avatar" name="dataset" value="Avatar">
+            <label style="margin-left: 5px;" for="Avatar">Avatar</label>
+            <br>
+            <input type="radio" id="CodeNet" name="dataset" value="CodeNet">
+            <label style="margin-left: 5px;" for="CodeNet">CodeNet</label>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-weight: bolder;">Source Language:</label>
+          <div id="sourceLangCheckboxes">
+            <input type="checkbox" id="CSource" name="sourceLang" value="C">
+            <label style="margin-left: 5px;" for="CSource">C</label>
+            <br>
+            <input type="checkbox" id="CPlusPlusSource" name="sourceLang" value="C++">
+            <label style="margin-left: 5px;" for="CPlusPlusSource">C++</label>
+            <br>
+            <input type="checkbox" id="GoSource" name="sourceLang" value="Go">
+            <label style="margin-left: 5px;" for="GoSource">Go</label>
+            <br>
+            <input type="checkbox" id="JavaSource" name="sourceLang" value="Java">
+            <label style="margin-left: 5px;" for="JavaSource">Java</label>
+            <br>
+            <input type="checkbox" id="PythonSource" name="sourceLang" value="Python" checked>
+            <label style="margin-left: 5px;" for="PythonSource">Python</label>
+          </div>
+        </div>
+        <div>
+          <label style="font-weight: bolder;">Target Language:</label>
+          <div id="targetLangCheckboxes">
+
+            <input type="checkbox" id="CTarget" name="targetLang" value="C">
+            <label style="margin-left: 5px;" for="CTarget">C</label>
+            <br>
+
+            <input type="checkbox" id="CPlusPlusTarget" name="targetLang" value="C++">
+            <label style="margin-left: 5px;" for="CPlusPlusTarget">C++</label>
+            <br>
+
+            <input type="checkbox" id="GoTarget" name="targetLang" value="Go">
+            <label style="margin-left: 5px;" for="GoTarget">Go</label>
+            <br>
+
+            <input type="checkbox" id="JavaTarget" name="targetLang" value="Java" checked>
+            <label style="margin-left: 5px;" for="JavaTarget">Java</label>
+            <br>
+
+            <input type="checkbox" id="PythonTarget" name="targetLang" value="Python">
+            <label style="margin-left: 5px;" for="PythonTarget">Python</label>
+
+          </div>
+        </div>
+        <div>
+          <label style="font-weight: bolder;">Sort By:</label>
+          <div id="sortByCheckboxes">
+            <input type="radio" id="Pass1Star" name="sortBy" value="Pass@1*" checked>
+            <label for="Pass1Star">Pass@1*</label>
+            <br>
+            <input type="radio" id="Pass1" name="sortBy" value="Pass@1">
+            <label for="Pass1">Pass@1</label>
+            <br>
+            <input type="radio" id="Pass5" name="sortBy" value="Pass@5">
+            <label for="Pass5">Pass@5</label>
+          </div>
+        </div>
+        <div style="margin: 20px 0; border-top: 2px solid black;"></div>
+      </div>
+
+      <table id="csvTable"></table>
+
+      <div id = "notes">
+        <h3>📝 Notes</h3>
+        <p class="inline-block mt-3">
+          <ol>
+            <li>We use Pass@1* (greedy decoding with temperature=0), Pass@1 and Pass@5 for evaluating LLMs in our leaderboard. For Pass@1 and Pass@5, we report the max value from temperatures 0.2 and 0.8.</li> 
+            <li>For "All Dataset", the scores are averaged over each source-target language pair.</li>
+            <li>It is the model providers' responsibility to avoid data contamination as much as possible. In other words, we cannot guarantee if the evaluated models are contaminated or not.</li>
+          </ol>
+        </p>
+      </div>
+
+      <div id="notes">
+        <h3>🤗 More Leaderboards</h3>
+        <p style="font-size: large;">In addition to <strong>Code Lingua</strong> leaderboards, it is recommended to comprehensively understand LLM coding ability through a
+        diverse set of benchmarks and leaderboards, such as:</p>
+        <p class="inline-block mt-3">
+          <ol>
+            <li><a href="https://evalplus.github.io/leaderboard.html">EvalPlus</a></li>            
+            <li><a href="https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard">Big Code Models Leaderboard</a></li>
+            <li><a href="https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard">Chatbot Arena Leaderboard</a></li>
+            <li><a href="https://github.com/amazon-science/cceval">CrossCodeEval</a></li>
+            <li><a href="https://fudanselab-classeval.github.io/">ClassEval</a></li>
+            <li><a href="https://crux-eval.github.io/leaderboard.html">CRUXEval</a></li>
+            <li><a href="https://evo-eval.github.io/">Evo-Eval</a></li>
+            <li><a href="https://github.com/01-ai/HumanEval.jl">HumanEval.jl</a></li>
+            <li><a href="https://infi-coder.github.io/inficoder-eval/">InfiCoder-Eval</a></li>
+            <li><a href="https://livecodebench.github.io/leaderboard.html">LiveCodeBench</a></li>
+            <li><a href="https://github.com/Leolty/repobench">RepoBench</a></li>
+            <li><a href="https://leaderboard.tabbyml.com/">TabbyML Leaderboard</a></li>
+          </ol>
+        </p>
+      </div>
+      
+      <div class="d-flex flex-row justify-content-center">
+        <p> We would like to thank authors of <a href="https://evalplus.github.io/leaderboard.html" target="_blank">EvalPlus</a> for their artifacts and leaderboard template 🙏 </p>
+      </div>
+    </div>
+
+  </body>
+</html>
