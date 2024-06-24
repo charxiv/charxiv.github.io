@@ -37,7 +37,16 @@ CsvToHtmlTable = {
                 for (var rowIdx = 1; rowIdx < csvData.length; rowIdx++) {
                     var $tableBodyRow = $("<tr></tr>");
                     for (var colIdx = 0; colIdx < csvData[rowIdx].length; colIdx++) {
-                        var $tableBodyRowTd = $("<td></td>");
+                        // if first two columns, light gray background
+                        if (colIdx < 2) {
+                            var $tableBodyRowTd = $("<td style='background-color: #f9f9f9;'></td>");
+                        }
+                        // if next 6 columns, light blue background
+                        else if (colIdx < 8) {
+                            var $tableBodyRowTd = $("<td style='background-color: #f0f8ff;'></td>");
+                        // if next 6 columns, light red background
+                        } else {
+                            var $tableBodyRowTd = $("<td style='background-color: #ffe4e1;'></td>");
                         var cellTemplateFunc = customTemplates[colIdx];
                         if (cellTemplateFunc) {
                             $tableBodyRowTd.html(cellTemplateFunc(csvData[rowIdx][colIdx]));
