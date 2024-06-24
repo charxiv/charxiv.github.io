@@ -44,6 +44,13 @@ CsvToHtmlTable = {
                         } else {
                             $tableBodyRowTd.text(csvData[rowIdx][colIdx]);
                         }
+                        if (colIdx === 1 || colIdx === 6) {
+                            $tableBodyRowTd.addClass("leaderboard-right-border");
+                        }
+                        if (colIdx === 0) {
+                            $tableBodyRowTd.addClass("text-left");
+                        }
+
                         $tableBodyRow.append($tableBodyRowTd);
                         $tableBody.append($tableBodyRow);
                     }

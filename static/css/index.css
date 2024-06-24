@@ -325,3 +325,7 @@ code {
   height: 100%;
   margin: 5px; 
 }
+
+.leaderboard-right-border {
+  border-right: 1px solid #cdd0d4
+}
