@@ -46,7 +46,7 @@ CsvToHtmlTable = {
                             $tableBodyRowTd.text(csvData[rowIdx][colIdx]);
                         }
                         if (colIdx == 1 || colIdx == 6) {
-                            $tableBodyRowTd.addClass("leaderboard-right-border");
+                            $tableBodyRowTd.css("border-right", "1px solid black");
                             console.log("leaderboard-right-border");
                         }
                         if (colIdx == 0) {
