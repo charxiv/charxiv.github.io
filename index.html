@@ -33,6 +33,15 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/jquery.csv.min.js"></script>
   <script src="./static/js/csv_to_html_table.js"></script>
+  <script>
+    CsvToHtmlTable.init({
+      csv_path: 'data/results.csv', 
+      element: 'table-container', 
+      allow_download: true,
+      csv_options: {separator: ',', delimiter: '"'},
+      datatables_options: {"paging": false}
+    });
+  </script>
 
 
   <!-- juxtapose -->
@@ -193,17 +202,6 @@
           </div>
         </div>
       </div>
-      <div>
-        <script>
-          CsvToHtmlTable.init({
-            csv_path: 'data/results.csv', 
-            element: 'table', 
-            allow_download: true,
-            csv_options: {separator: ',', delimiter: '"'},
-            datatables_options: {"paging": false}
-          });
-        </script>
-      </div>
       <!-- teaser video -->
       <div class="columns is-centered">
         <div class="column is-four-fifths">
@@ -256,15 +254,7 @@
               We evaluate general-purpose MLLMs on CharXiv and provide a leaderboard for the community to track progress. Note that all models are evaluated in a zero-shot setting with a set of instructions for each question type.
             </p>
             <div class="has-text-centered">
-              <script>
-                CsvToHtmlTable.init({
-                  csv_path: 'data/results.csv', 
-                  element: 'table-container', 
-                  allow_download: true,
-                  csv_options: {separator: ',', delimiter: '"'},
-                  datatables_options: {"paging": false}
-                });
-              </script>
+              <div id="table-container"></div>
               <!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHspVKvKHdgmPanB8fIweQ8uIxlMgPd2WnVrvWElSU1OvK0X_FwGLXj_SDiQii9ak-aWpthnetDN-F/pubhtml?widget=true&amp;headers=false&amp;chrome=false" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:700px;width:88.2%;border:none;overflow:hidden;"></iframe> -->
             </div>
           </div>
