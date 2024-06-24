@@ -44,10 +44,11 @@ CsvToHtmlTable = {
                         } else {
                             $tableBodyRowTd.text(csvData[rowIdx][colIdx]);
                         }
-                        if (colIdx === 1 || colIdx === 6) {
+                        if (colIdx == 1 || colIdx == 6) {
                             $tableBodyRowTd.addClass("leaderboard-right-border");
+                            console.log("leaderboard-right-border");
                         }
-                        if (colIdx === 0) {
+                        if (colIdx == 0) {
                             $tableBodyRowTd.addClass("text-left");
                         }
 
