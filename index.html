@@ -193,18 +193,17 @@
           </div>
         </div>
       </div>
-
-      <script>
-        CsvToHtmlTable.init({
-          csv_path: 'data/results.csv', 
-          element: 'table-container', 
-          allow_download: true,
-          csv_options: {separator: ',', delimiter: '"'},
-          datatables_options: {"paging": false}
-        });
-      </script>
-
-
+      <div>
+        <script>
+          CsvToHtmlTable.init({
+            csv_path: 'data/results.csv', 
+            element: 'table-container', 
+            allow_download: true,
+            csv_options: {separator: ',', delimiter: '"'},
+            datatables_options: {"paging": false}
+          });
+        </script>
+      </div>
       <!-- teaser video -->
       <div class="columns is-centered">
         <div class="column is-four-fifths">
