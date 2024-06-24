@@ -8,20 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CharXiv</title>
   
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
   <script src="https://kit.fontawesome.com/854f31a6c4.js" crossorigin="anonymous"></script>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
@@ -30,16 +16,13 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <!-- <link rel="stylesheet" href="./static/css/fontawesome.all.min.css"> -->
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/leaderboard.css">
-
+  <!-- <link rel="stylesheet" href="./static/css/leaderboard.css"> -->
   <link rel="icon" href="./static/images/charxiv_logo.png">
-
   <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
-  <script type="text/javascript" src="static/js/sort-table.js" defer></script>
+  <!-- <script type="text/javascript" src="static/js/sort-table.js" defer></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <!-- <script defer src="./static/js/fontawesome.all.min.js"></script> -->
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
@@ -210,6 +193,16 @@
           </div>
         </div>
       </div>
+
+      <script>
+        CsvToHtmlTable.init({
+          csv_path: 'data/results.csv', 
+          element: 'table-container', 
+          allow_download: true,
+          csv_options: {separator: ',', delimiter: '"'},
+          datatables_options: {"paging": false}
+        });
+      </script>
 
 
       <!-- teaser video -->
