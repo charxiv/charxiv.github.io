@@ -59,7 +59,6 @@ CsvToHtmlTable = {
                     }
                 }
                 $table.append($tableBody);
-
                 $table.DataTable(datatables_options);
 
                 if (allow_download) {
