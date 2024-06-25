@@ -27,7 +27,7 @@ CsvToHtmlTable = {
                 var csvHeaderRow = csvData[0];
 
                 var $tableHeadRow1 = $("<tr></tr>");
-                $tableHeadRow1.append($("<th colspan='2'></th>").text("Metadata"));
+                $tableHeadRow1.append($("<th colspan='2' data-dt-order='disable'></th>").text("Metadata"));
                 $tableHeadRow1.append($("<th colspan='5'></th>").text("Reasoning Questions"));
                 $tableHeadRow1.append($("<th colspan='6'></th>").text("Descriptive Questions"));
                 $tableHeadRow1.css("background-color", "#f5f5f5");
