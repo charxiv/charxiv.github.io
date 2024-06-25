@@ -35,7 +35,12 @@ CsvToHtmlTable = {
 
                 var $tableHeadRow2 = $("<tr></tr>");
                 for (var headerIdx = 0; headerIdx < csvHeaderRow.length; headerIdx++) {
-                    $tableHeadRow2.append($("<th></th>").text(csvHeaderRow[headerIdx]));
+                    var explanation = "this is a test";
+                    $tableHeadRow2Cell = $("<th class='tooltip'></th>").text(csvHeaderRow[headerIdx]);
+                    $tableHeadRow2Cell.append($("<span class='tooltiptext'></span>").text(explanation));
+                    $tableHeadRow2.append($tableHeadRow2Cell);
+
+                    // $tableHeadRow2.append($("<th class='tooltip'></th>").text(csvHeaderRow[headerIdx]));
                 }
                 $tableHeadRow2.css("background-color", "#f5f5f5");
                 $tableHead.append($tableHeadRow2);
