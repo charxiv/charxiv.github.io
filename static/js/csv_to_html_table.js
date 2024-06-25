@@ -61,6 +61,7 @@ CsvToHtmlTable = {
                         if (colIdx == 0) {
                             // left align
                             $tableBodyRowTd.css("text-align", "left");
+                        }
                         if (colIdx == 1 || colIdx == 6) {
                             $tableBodyRowTd.css("border-right", "1px solid #dbdbdb");
                         }
