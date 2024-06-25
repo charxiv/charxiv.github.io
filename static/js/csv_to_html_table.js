@@ -46,8 +46,7 @@ CsvToHtmlTable = {
                             $tableBodyRowTd.text(csvData[rowIdx][colIdx]);
                         }
                         if (colIdx == 1 || colIdx == 6) {
-                            $tableBodyRowTd.css("border-right", "1px solid black");
-                            console.log("leaderboard-right-border");
+                            $tableBodyRowTd.css("border-right", "1px solid #dbdbdb");
                         }
                         if (colIdx == 0) {
                             $tableBodyRowTd.addClass("text-left");
@@ -58,7 +57,7 @@ CsvToHtmlTable = {
                     }
                 }
                 $table.append($tableBody);
-
+                $table.addClass("hover stripe");
                 $table.DataTable(datatables_options);
                 if (allow_download) {
                     $containerElement.append("<p><a class='btn btn-info' href='" + csv_path + "'><i class='glyphicon glyphicon-download'></i> Download as CSV</a></p>");
