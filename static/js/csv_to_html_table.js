@@ -30,12 +30,14 @@ CsvToHtmlTable = {
                 $tableHeadRow1.append($("<th colspan='2'></th>").text("Metadata"));
                 $tableHeadRow1.append($("<th colspan='5'></th>").text("Reasoning Questions"));
                 $tableHeadRow1.append($("<th colspan='6'></th>").text("Descriptive Questions"));
+                $tableHeadRow1.css("background-color", "#f5f5f5");
                 $tableHead.append($tableHeadRow1);
 
                 var $tableHeadRow2 = $("<tr></tr>");
                 for (var headerIdx = 0; headerIdx < csvHeaderRow.length; headerIdx++) {
                     $tableHeadRow2.append($("<th></th>").text(csvHeaderRow[headerIdx]));
                 }
+                $tableHeadRow2.css("background-color", "#f5f5f5");
                 $tableHead.append($tableHeadRow2);
 
                 $table.append($tableHead);
@@ -57,15 +59,15 @@ CsvToHtmlTable = {
                         }
                         // if the second column equals to "Close", then set the background color of the row to light red
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Close") {
-                            $tableBodyRow.css("background-color", "#E8C5E5");
+                            $tableBodyRow.css("background-color", "#FFF2F2");
                         }
                         // if the second column equals to "Open", then set the background color of the row to light green
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Open") {
-                            $tableBodyRow.css("background-color", "#91DDCF");
+                            $tableBodyRow.css("background-color", "#DEF5E5");
                         }
                         // if N/A, light blue
                         if (csvData[rowIdx][colIdx] == "N/A") {
-                            $tableBodyRow.css("background-color", "#F7F9F2");
+                            $tableBodyRow.css("background-color", "#ECF9FF");
                         }
 
 
