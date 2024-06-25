@@ -25,11 +25,18 @@ CsvToHtmlTable = {
                 var csvData = $.csv.toArrays(data, csv_options);
                 var $tableHead = $("<thead></thead>");
                 var csvHeaderRow = csvData[0];
-                var $tableHeadRow = $("<tr></tr>");
+                
+                var $tableHeadRow1 = $("<tr></tr>");
+                $tableHeadRow1.append($("<th colspan='2'></th>").text("Metadata"));
+                $tableHeadRow1.append($("<th colspan='5'></th>").text("Reasoning Questions"));
+                $tableHeadRow1.append($("<th colspan='6'></th>").text("Descriptive Questions"));
+                $tableHead.append($tableHeadRow1);
+
+                var $tableHeadRow2 = $("<tr></tr>");
                 for (var headerIdx = 0; headerIdx < csvHeaderRow.length; headerIdx++) {
-                    $tableHeadRow.append($("<th></th>").text(csvHeaderRow[headerIdx]));
+                    $tableHeadRow2.append($("<th></th>").text(csvHeaderRow[headerIdx]));
                 }
-                $tableHead.append($tableHeadRow);
+                $tableHead.append($tableHeadRow2);
 
                 $table.append($tableHead);
                 var $tableBody = $("<tbody></tbody>");
