@@ -238,10 +238,7 @@
   </div>
 </section>
 
-
-
 <br><br>
-
 
 <section class="section no_pad_section">
   <div class="container is-max-desktop content">
@@ -264,7 +261,6 @@
       
   </div>
 </section>
-
 
 <footer class="footer" style="padding-bottom: 1.5em; padding-top: 1.5em;">
   <div class="container">
@@ -290,7 +286,14 @@
       element: 'table-container', 
       allow_download: true,
       csv_options: {separator: ',', delimiter: '"'},
-      datatables_options: {"paging": false, "order": [[2, 'desc']]}
+      datatables_options: {
+        "paging": false, 
+        "order": [[2, 'desc']],
+        "columnDefs": [
+        {targets: [0], className: 'dt-left', className: 'dt-head-left'},
+        {targets: [1,2,3,4,5,6,7,8,9,10,11,12], className: 'dt-center', className: 'dt-head-center'}
+        ]
+      }
     });
   </script>
 </body>
