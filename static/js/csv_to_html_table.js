@@ -36,6 +36,13 @@ CsvToHtmlTable = {
                 var $tableHeadRow2 = $("<tr></tr>");
                 for (var headerIdx = 0; headerIdx < csvHeaderRow.length; headerIdx++) {
                     $tableHeadRow2.append($("<th></th>").text(csvHeaderRow[headerIdx]));
+                    if (headerIdx == 0) {
+                        // left align
+                        $tableHeadRow2.find("th").attr("align", "left");
+                    } else {
+                        // center align
+                        $tableHeadRow2.find("th").attr("align", "center");
+                    }
                 }
                 $tableHeadRow2.css("background-color", "#f5f5f5");
                 $tableHead.append($tableHeadRow2);
@@ -56,6 +63,11 @@ CsvToHtmlTable = {
                         }
                         if (colIdx == 1 || colIdx == 6) {
                             $tableBodyRowTd.css("border-right", "1px solid #dbdbdb");
+                        }
+                        if (colIdx == 0) {
+                            $tableBodyRowTd.attr("align", "left");
+                        } else {
+                            $tableBodyRowTd.attr("align", "center");
                         }
                         // if the second column equals to "Close", then set the background color of the row to light red
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Close") {
