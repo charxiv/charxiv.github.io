@@ -83,11 +83,11 @@ CsvToHtmlTable = {
                         }
                         // if the second column equals to "Proprietary", then set the background color of the row to light red
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Proprietary") {
-                            $tableBodyRow.css("background-color", "#FEF4E4");
+                            $tableBodyRow.css("background-color", "#FEFAE3");
                         }
                         // if the second column equals to "Open", then set the background color of the row to light green
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Open") {
-                            $tableBodyRow.css("background-color", "#D9FFFF");
+                            $tableBodyRow.css("background-color", "#F8FBFD");
                         }
                         // if N/A, light blue
                         if (csvData[rowIdx][colIdx] == "N/A") {
