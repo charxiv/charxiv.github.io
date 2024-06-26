@@ -68,17 +68,17 @@ CsvToHtmlTable = {
                         if (colIdx == 2 || colIdx == 7) {
                             $tableBodyRowTd.css("border-right", "1px solid #dbdbdb");
                         }
-                        // if the second column equals to "Close", then set the background color of the row to light red
-                        if (colIdx == 1 && csvData[rowIdx][colIdx] == "Close") {
-                            $tableBodyRow.css("background-color", "#FFF2F2");
+                        // if the second column equals to "Proprietary", then set the background color of the row to light red
+                        if (colIdx == 1 && csvData[rowIdx][colIdx] == "Proprietary") {
+                            $tableBodyRow.css("background-color", "#ffffd2");
                         }
                         // if the second column equals to "Open", then set the background color of the row to light green
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Open") {
-                            $tableBodyRow.css("background-color", "#DEF5E5");
+                            $tableBodyRow.css("background-color", "#c4f9d6");
                         }
                         // if N/A, light blue
                         if (csvData[rowIdx][colIdx] == "N/A") {
-                            $tableBodyRow.css("background-color", "#ECF9FF");
+                            $tableBodyRow.css("background-color", "#aa97da");
                         }
 
 
