@@ -34,7 +34,20 @@ CsvToHtmlTable = {
                 $tableHead.append($tableHeadRow1);
 
                 var $tableHeadRow2 = $("<tr></tr>");
-                const explanations = ["The name of the model", "The weight availability of the model", "Overall score for reasoning questions", "Score for text-in-chart answers", "Score for text-in-general answers", "Score for number-in-chart answers", "Score for number-in-general answers", "Overall score for descriptive questions", "Score for information extraction questions", "Score for enumeration questions", "Score for pattern recognition questions", "Score for counting questions", "Score for compositionality questions"];
+                const explanations = ["The name of the model", 
+                "The weight availability of the model", 
+                "Vision and language module size in terms of billion parameters",
+                "Overall score for reasoning questions", 
+                "Score for text-in-chart answers", 
+                "Score for text-in-general answers", 
+                "Score for number-in-chart answers", 
+                "Score for number-in-general answers", 
+                "Overall score for descriptive questions", 
+                "Score for information extraction questions", 
+                "Score for enumeration questions", 
+                "Score for pattern recognition questions", 
+                "Score for counting questions", 
+                "Score for compositionality questions"];
                 for (var headerIdx = 0; headerIdx < csvHeaderRow.length; headerIdx++) {
                     var explanation = explanations[headerIdx];
                     $tableHeadRow2Cell = $("<th class='tooltip'></th>").text(csvHeaderRow[headerIdx]);
