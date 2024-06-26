@@ -1,0 +1,7 @@
+Source (API name or HF ID): Alpha-VLLM/LLaMA2-Accessory
+Hyperparameters:
+    - do_samples: 
+    - max_new_tokens: 1024
+    - temperature: 0
+    - top-p: 1
+    - seed: 42

@@ -1,0 +1,7 @@
+Source (API name or HF ID): BK-Lee/MoAI-7B
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 
+    - temperature: 
+    - top-p: 
+    - seed: 

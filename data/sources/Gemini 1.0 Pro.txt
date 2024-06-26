@@ -1,0 +1,7 @@
+Source (API name or HF ID): gemini-1.0-pro-vision-001
+Hyperparameters:
+    - do_samples: 
+    - max_new_tokens: 1000
+    - temperature: 0
+    - top-p: 1
+    - seed: 

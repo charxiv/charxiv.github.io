@@ -1,0 +1,7 @@
+Source (API name or HF ID): microsoft/Phi-3-vision-128k-instruct
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 500
+    - temperature: 0.0
+    - top-p: 
+    - seed: 

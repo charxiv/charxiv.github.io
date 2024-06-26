@@ -1,0 +1,7 @@
+Source (API name or HF ID): llava-hf/llava-v1.6-mistral-7b-hf
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 1000
+    - temperature: 
+    - top-p: 
+    - seed: 

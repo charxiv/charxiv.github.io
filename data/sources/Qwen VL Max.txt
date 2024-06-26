@@ -1,0 +1,7 @@
+Source (API name or HF ID): qwen-vl-max
+Hyperparameters:
+    - do_samples: 
+    - max_new_tokens: 
+    - temperature: 0
+    - top-p: 0.99999
+    - seed: 42

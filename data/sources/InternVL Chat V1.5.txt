@@ -1,0 +1,7 @@
+Source (API name or HF ID): OpenGVLab/InternVL-Chat-V1-5 
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 512
+    - temperature: 
+    - top-p: 
+    - seed: 

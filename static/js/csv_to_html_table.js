@@ -27,7 +27,7 @@ CsvToHtmlTable = {
                 var csvHeaderRow = csvData[0];
 
                 var $tableHeadRow1 = $("<tr></tr>");
-                $tableHeadRow1.append($("<th colspan='2' data-dt-order='disable'></th>").text("Metadata"));
+                $tableHeadRow1.append($("<th colspan='3' data-dt-order='disable'></th>").text("Metadata"));
                 $tableHeadRow1.append($("<th colspan='5'></th>").text("Reasoning Questions"));
                 $tableHeadRow1.append($("<th colspan='6'></th>").text("Descriptive Questions"));
                 $tableHeadRow1.css("background-color", "#f5f5f5");
@@ -52,7 +52,6 @@ CsvToHtmlTable = {
                     for (var colIdx = 0; colIdx < csvData[rowIdx].length; colIdx++) {
                         var $tableBodyRowTd = $("<td></td>");
                         var cellTemplateFunc = customTemplates[colIdx];
-                        console.log("Processing column: " + colIdx + ", Value: " + csvData[rowIdx][colIdx]);
                         if (cellTemplateFunc) {
                             $tableBodyRowTd.html(cellTemplateFunc(csvData[rowIdx][colIdx]));
                         } else {
@@ -61,8 +60,14 @@ CsvToHtmlTable = {
                         if (colIdx == 0) {
                             // left align
                             $tableBodyRowTd.css("text-align", "left");
+                            // click to see more info
+                            $tableBodyRowTd.on('click', function() {
+                                var cellValue = $(this).text();
+                                var url = './data/sources/' + cellValue + '.txt';
+                                window.location.href = url;
+                            });
                         }
-                        if (colIdx == 1 || colIdx == 6) {
+                        if (colIdx == 2 || colIdx == 7) {
                             $tableBodyRowTd.css("border-right", "1px solid #dbdbdb");
                         }
                         // if the second column equals to "Close", then set the background color of the row to light red

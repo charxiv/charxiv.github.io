@@ -1,0 +1,7 @@
+Source (API name or HF ID): openbmb/MiniCPM-V-2
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 
+    - temperature: 0
+    - top-p: 1
+    - seed: 

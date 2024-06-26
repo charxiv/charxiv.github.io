@@ -1,0 +1,7 @@
+Source (API name or HF ID): HuggingFaceM4/idefics2-8b-chatty
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 500
+    - temperature: 
+    - top-p: 
+    - seed: 

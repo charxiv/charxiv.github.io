@@ -1,0 +1,7 @@
+Source (API name or HF ID): 
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 512
+    - temperature: False
+    - top-p: 
+    - seed: 

@@ -1,0 +1,7 @@
+Source (API name or HF ID): openbmb/MiniCPM-Llama3-V-2_5
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 
+    - temperature: 
+    - top-p: 
+    - seed: 

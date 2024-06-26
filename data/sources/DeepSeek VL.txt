@@ -1,0 +1,7 @@
+Source (API name or HF ID): deepseek-ai/deepseek-vl-7b-chat
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 512
+    - temperature: 
+    - top-p: 
+    - seed: 
