@@ -288,7 +288,10 @@
       csv_options: {separator: ',', delimiter: '"'},
       datatables_options: {
         "paging": false, 
-        "order": [[3, 'desc']]
+        "order": [[3, 'desc']],
+        "columnDefs": [
+        {targets: [0], className: 'dt-left', className: 'dt-head-left'},
+        ]
       }
     });
   </script>
