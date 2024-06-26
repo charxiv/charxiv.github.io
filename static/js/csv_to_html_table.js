@@ -61,11 +61,9 @@ CsvToHtmlTable = {
                             // left align
                             $tableBodyRowTd.css("text-align", "left");
                             // click to see more info
-                            $tableBodyRowTd.on('click', function() {
-                                var cellValue = $(this).text();
-                                var url = './data/sources/' + cellValue + '.txt';
-                                window.location.href = url;
-                            });
+                            var cellValue = csvData[rowIdx][colIdx];
+                            var url = './data/sources/' + cellValue + '.txt';
+                            $tableBodyRowTd.html('<a href="' + url + '">' + cellValue + '</a>');
                         }
                         if (colIdx == 2 || colIdx == 7) {
                             $tableBodyRowTd.css("border-right", "1px solid #dbdbdb");
