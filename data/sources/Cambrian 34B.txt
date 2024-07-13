@@ -1,0 +1,7 @@
+Source (API name or HF ID): nyu-visionx/cambrian-34b
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 512
+    - temperature: 
+    - top-p: 
+    - seed: 42

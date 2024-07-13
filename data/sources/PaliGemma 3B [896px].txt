@@ -1,0 +1,7 @@
+Source (API name or HF ID): google/paligemma-3b-pt-896
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 100
+    - temperature: 
+    - top-p: 
+    - seed: 

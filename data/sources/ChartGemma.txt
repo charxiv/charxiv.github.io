@@ -1,0 +1,8 @@
+Source (API name or HF ID): ahmed-masry/chartgemma
+Hyperparameters:
+    - do_samples: 
+    - max_new_tokens: 512
+    - temperature: 
+    - top-p: 
+    - seed: 
+    - num_beams: 4
