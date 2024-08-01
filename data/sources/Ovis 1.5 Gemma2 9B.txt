@@ -1,0 +1,9 @@
+Source (API name or HF ID): AIDC-AI/Ovis1.5-Gemma2-9B
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 1024
+    - temperature: 
+    - top-p: 
+    - seed: 
+Misc:
+    - results provided by paper authors using the official codebase
