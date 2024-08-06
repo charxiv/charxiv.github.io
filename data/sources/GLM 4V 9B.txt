@@ -1,0 +1,7 @@
+Source (API name or HF ID): THUDM/glm-4v-9b
+Hyperparameters:
+    - do_samples: False
+    - max_new_tokens: 2500
+    - temperature: 
+    - top-p: 
+    - seed: 
