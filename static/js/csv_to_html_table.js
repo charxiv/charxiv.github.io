@@ -89,6 +89,10 @@ CsvToHtmlTable = {
                         if (colIdx == 1 && csvData[rowIdx][colIdx] == "Open") {
                             $tableBodyRow.css("background-color", "#F8FBFD");
                         }
+                        // if the second column equals to "Domain-specific", then set the background color of the row to light yellow
+                        if (colIdx == 1 && csvData[rowIdx][colIdx] == "Domain-specific") {
+                            $tableBodyRow.css("background-color", "#FEE3A7");
+                        }
                         // if N/A, light blue
                         if (csvData[rowIdx][colIdx] == "N/A") {
                             $tableBodyRow.css("background-color", "#FEF4E4");
